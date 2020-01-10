@@ -23,10 +23,12 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: build with $GITHUB_REF
-      run: echo $ref
+    - name: test id
+      run: echo $GITHUB_REF $FIRST_NAME $middle_name $Last_Name!
       env:
-        ref: $GITHUB_REF
+        FIRST_NAME: Mona
+        middle_name: The
+        Last_Name: Octocat
     - name: npm install, build, and test
       run: |
         # npm install
