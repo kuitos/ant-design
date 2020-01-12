@@ -1,3 +1,5 @@
+// node ./scripts/preview-deploy.js refs/pull/1/merge
+
 const util = require('util');
 const chalk = require('chalk');
 const fs = require('fs-extra');
