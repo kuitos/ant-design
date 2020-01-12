@@ -28,7 +28,7 @@ function alertBabelConfig(rules) {
   });
 }
 
-module.exports = {
+const config = {
   port: 8001,
   hash: true,
   source: {
@@ -163,3 +163,10 @@ module.exports = {
     usePreact,
   },
 };
+
+if (process.env.ROOT_PATH) {
+  console.log('Root path:', process.env.ROOT_PATH);
+  config.root = process.env.ROOT_PATH;
+}
+
+module.exports = config;

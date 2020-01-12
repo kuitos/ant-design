@@ -1,20 +1,11 @@
-// ## https://deploy-preview-20290--ant-design.netlify.com/
-
-// echo "Deploy to netlify..."
-// cd _site
-// zip -r site.zip *
-
-// sha=
-
-// site_url = "https://api.netlify.com/api/v1/sites/mysite.netlify.com/deploys"
-
-// # curl -H "Content-Type: application/zip" \
-// #      -H "Authorization: Bearer my-api-access-token" \
-// #      --data-binary "site.zip" \
-// #      https://api.netlify.com/api/v1/sites/mysite.netlify.com/deploys
-
+const util = require('util');
 const chalk = require('chalk');
-const exec = require('child_process').exec;
+const fs = require('fs-extra');
+const { exec } = require('child_process');
+
+const execP = util.promisify(exec);
+
+const PREVIEW_REPO = 'https://github.com/zombieJ/antd-preview.git';
 
 const ref = process.argv[process.argv.length - 1];
 console.log('Current ref:', chalk.yellow(ref));
@@ -22,28 +13,34 @@ console.log('Current ref:', chalk.yellow(ref));
 const match = ref.match(/pull\/(\d+)\/merge/);
 const pullRequestId = match && match[1];
 
-if (pullRequestId) {
-  const url = `workflow-preview-${pullRequestId}-ant-design.netlify.com`;
+async function run() {
+  if (pullRequestId) {
+    const pullRequestPath = `./_tmp/${pullRequestId}`;
 
-  const deployScript = [
-    'curl',
-    '-H "Content-Type: application/zip"',
-    `-H "Authorization: Bearer ${process.env.token}"`,
-    '--data-binary "site.zip"',
-    `https://api.netlify.com/api/v1/sites/${url}/deploys`,
-  ].join(' ');
+    fs.removeSync('./_tmp');
+    console.log('Build site...');
+    const buildSpawn = exec('npm run site', {
+      env: {
+        ...process.env,
+        ROOT_PATH: `/_tmp/${pullRequestId}/`,
+      },
+    });
 
-  console.log('Current pull request:', pullRequestId);
-  console.log(chalk.yellow(`deploy to site: ${url}`));
-  console.log(deployScript);
-  exec(`cd _site && zip -r site.zip * && ${deployScript}`, function ret(err, stdout, stderr) {
-    if (err) {
-      process.exit(err);
-    }
-    console.log(stdout);
+    buildSpawn.stdout.pipe(process.stdout);
+    buildSpawn.stderr.pipe(process.stderr);
 
-    console.log('done...');
-  });
-} else {
-  console.log('Not match pull request...exit');
+    buildSpawn.on('exit', async function buildExit(code) {
+      console.log('Build with code:', code);
+      console.log('Clone preview repo...');
+      const cloneExec = await execP(`git clone ${PREVIEW_REPO} _tmp`);
+      console.log(cloneExec.stdout || cloneExec.stderr);
+
+      fs.removeSync(pullRequestPath);
+      fs.copySync('./_site', pullRequestPath);
+    });
+  } else {
+    console.log('Not match pull request...exit');
+  }
 }
+
+run();
