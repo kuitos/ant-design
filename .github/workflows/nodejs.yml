@@ -23,14 +23,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: test id
-      run: echo $GITHUB_REF $FIRST_NAME $middle_name $Last_Name!
-      env:
-        FIRST_NAME: Mona
-        middle_name: The
-        Last_Name: Octocat
-    - name: npm install, build, and test
+    - name: npm install, build, and deploy
       run: |
         # npm install
         # npm run site
-        # bash ./scripts/netlify-deploy.sh
+        node ./scripts/preview-deploy.js $GITHUB_REF
