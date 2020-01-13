@@ -26,6 +26,7 @@ jobs:
     - name: prepare host env
       run: |
         SSH_DIR="${HOME}/.ssh"
+        echo "SSH DIR: ${SSH_DIR}"
         mkdir "${SSH_DIR}"
         ssh-keyscan -t rsa github.com > "${SSH_DIR}/known_hosts"
         echo "${ACTIONS_DEPLOY_KEY}" > "${SSH_DIR}/id_rsa"
