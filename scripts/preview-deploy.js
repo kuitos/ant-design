@@ -43,6 +43,18 @@ async function run() {
       fs.removeSync(pullRequestPath);
       fs.copySync('./_site', pullRequestPath);
 
+      // Config git account
+      /* eslint-disable no-template-curly-in-string */
+      console.log('Login git...');
+      const gitExec = await execP(
+        [
+          'git config user.name "${GITHUB_ACTOR}"',
+          'git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"',
+        ].join('  &&  '),
+      );
+      /* eslint-enable */
+      console.log(gitExec.stdout || gitExec.stderr);
+
       // Clean up git history
       console.log('Reset preview repo...');
       fs.removeSync('./_tmp/.git');
