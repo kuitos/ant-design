@@ -31,7 +31,6 @@ jobs:
         ssh-keyscan -t rsa github.com > "${SSH_DIR}/known_hosts"
         echo "${ACTIONS_DEPLOY_KEY}" > "${SSH_DIR}/id_rsa"
         chmod 400 "${SSH_DIR}/id_rsa"
-        echo "${ACTIONS_DEPLOY_KEY}"
       env:
         ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
     - name: npm install, build, and deploy
