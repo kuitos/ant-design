@@ -21,10 +21,11 @@ async function run() {
 
     fs.removeSync('./_tmp');
     console.log('Build site...');
+    const previewRepo = PREVIEW_REPO.match(/\/([^/.]*)\.git/)[1];
     const buildSpawn = exec('npm run site', {
       env: {
         ...process.env,
-        ROOT_PATH: `/_tmp/${pullRequestId}/`,
+        ROOT_PATH: `/${previewRepo}/${pullRequestId}/`,
       },
     });
 
