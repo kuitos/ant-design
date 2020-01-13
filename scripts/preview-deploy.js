@@ -19,6 +19,9 @@ async function run() {
   if (pullRequestId) {
     const pullRequestPath = `./_tmp/${pullRequestId}`;
 
+    const { GITHUB_ACTOR } = process.env;
+    console.log('Github actor:', GITHUB_ACTOR);
+
     fs.removeSync('./_tmp');
     console.log('Build site...');
     const previewRepo = PREVIEW_REPO.match(/\/([^/.]*)\.git/)[1];
@@ -49,11 +52,9 @@ async function run() {
       const pagesExec = await execP(
         [
           'cd _tmp',
-          // eslint-disable-next-line
-          'git config user.name "${GITHUB_ACTOR}"',
-          // eslint-disable-next-line
-          'git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"',
           'git init',
+          `git config user.name "${GITHUB_ACTOR}"`,
+          `git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"`,
           'git commit --allow-empty -m "Update"',
           'git checkout -b gh-pages',
           'git add .',
