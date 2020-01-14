@@ -9,11 +9,21 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
+- stage: checkout
+  jobs:
+    - job: Checkout
+      steps:
+        - checkout: self
+          displayName: 'Checkout'
+          clean: true
+          fetchDepth: 1
+
 - stage: env
   jobs:
     - job: Nodes
       steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '12.13.1'
-        displayName: 'Install Node.js'
+        - task: NodeTool@0
+          displayName: 'Install Node.js'
+          inputs:
+            versionSpec: '12.13.1'
+        
