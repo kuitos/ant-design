@@ -11,7 +11,7 @@ pool:
 stages:
 - stage: site
   jobs:
-    - job: BuildSite
+    - job: Build_Site
       steps:
         - checkout: self
           displayName: 'Checkout'
@@ -21,7 +21,9 @@ stages:
           displayName: 'Install Node.js'
           inputs:
             versionSpec: '12.13.1'
-        - task: Npm@1
-          inputs:
-            command: 'install'
-        
+        - script: npm install
+          displayName: 'Install modules'
+        - script: npm run site
+          displayName: 'Build sites'
+        - script: ll site
+          displayName: 'List build'
