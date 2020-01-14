@@ -19,9 +19,9 @@ stages:
         - task: GitHubComment@0
           displayName: 'Gtihub Comment'
           inputs:
-            id: ${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}
+            id: $(SYSTEM_PULLREQUEST_PULLREQUESTNUMBER)
             repositoryName: 'zombiej/ant-design'
-            gitHubConnection: ${ACCESS_TOKEN}
+            gitHubConnection: $(ACCESS_TOKEN)
             comment: |
               Just test for comment!!!
         - checkout: self
@@ -46,9 +46,9 @@ stages:
         - task: GitHubComment@0
           displayName: 'Gtihub Comment'
           inputs:
-            id: ${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}
+            id: $(SYSTEM_PULLREQUEST_PULLREQUESTNUMBER)
             repositoryName: 'zombiej/ant-design'
-            gitHubConnection: ${ACCESS_TOKEN}
+            gitHubConnection: $(ACCESS_TOKEN)
             comment: |
               Deploy preview is ready:
               https://preview-${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}-ant-design.surge.sh
