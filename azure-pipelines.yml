@@ -17,7 +17,7 @@ stages:
     - job: Build_Site
       steps:
         - script: export DEPLOY_DOMAIN=https://preview-${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}-ant-design.surge.sh
-        - script: echo $DEPLOY_DOMAIN
+        - script: echo "It is: $DEPLOY_DOMAIN"
         - checkout: self
           displayName: 'Checkout'
           clean: true
