@@ -16,14 +16,9 @@ stages:
   jobs:
     - job: Build_Site
       steps:
-        - task: GitHubComment@0
-          displayName: 'Gtihub Comment'
-          inputs:
-            id: $(SYSTEM_PULLREQUEST_PULLREQUESTNUMBER)
-            repositoryName: 'zombiej/ant-design'
-            gitHubConnection: $(ACCESS_TOKEN)
-            comment: |
-              Just test for comment!!!
+        - script: |
+            curl -X POST -u $(ACCESS_TOKEN) -H "Accept: application/json" -H "Content-Type:application/json" https://api.github.com/repos/zombiej/ant-design/issues/$(SYSTEM_PULLREQUEST_PULLREQUESTNUMBER)/comments -d '{ "body": "good!" }'
+          displayName: 'Test comment'
         - checkout: self
           displayName: 'Checkout'
           clean: true
