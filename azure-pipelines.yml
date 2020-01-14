@@ -1,6 +1,9 @@
 name: Ant Design
 
+trigger: none
+
 pr:
+  autoCancel: true
   branches:
     exclude:
       - gh-pages
