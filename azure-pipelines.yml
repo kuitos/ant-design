@@ -17,7 +17,7 @@ stages:
     - job: Build_Site
       steps:
         - script: |
-            curl -X POST -u $(ACCESS_TOKEN) -H "Accept: application/json" -H "Content-Type:application/json" https://api.github.com/repos/zombiej/ant-design/issues/$(SYSTEM_PULLREQUEST_PULLREQUESTNUMBER)/comments -d '{ "body": "good!" }'
+            curl -X POST -u $(ACCESS_TOKEN) -H "Accept: application/json" -H "Content-Type:application/json" https://api.github.com/repos/zombiej/ant-design/issues/${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}/comments -d '{ "body": "good!" }'
           displayName: 'Test comment'
         - checkout: self
           displayName: 'Checkout'
