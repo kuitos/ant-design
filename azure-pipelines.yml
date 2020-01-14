@@ -25,5 +25,5 @@ stages:
           displayName: 'Install modules'
         - script: npm run site
           displayName: 'Build sites'
-        - script: ll site
+        - script: ls -al _site/
           displayName: 'List build'
