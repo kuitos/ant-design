@@ -36,5 +36,5 @@ stages:
             npx surge --project ./_site --domain $DEPLOY_DOMAIN
           displayName: Deploy
         - script: |
-            curl -X POST -u $(ACCESS_TOKEN) -H "Accept: application/json" -H "Content-Type:application/json" https://api.github.com/repos/zombiej/ant-design/issues/${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}/comments -d '{ "body": "Preview deploy to '${DEPLOY_DOMAIN}'" }'
+            curl -X POST -u ${ACCESS_TOKEN} -H "Accept: application/json" -H "Content-Type:application/json" https://api.github.com/repos/zombiej/ant-design/issues/${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}/comments -d '{ "body": "Preview deploy to '${DEPLOY_DOMAIN}'" }'
           displayName: 'Deploy comment'
