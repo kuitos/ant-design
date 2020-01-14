@@ -38,12 +38,3 @@ stages:
             echo "Deploy to $DEPLOY_DOMAIN"
             npx surge --project ./_site --domain $DEPLOY_DOMAIN
           displayName: Deploy
-        - task: GitHubComment@0
-          displayName: 'Gtihub Comment'
-          inputs:
-            id: $(SYSTEM_PULLREQUEST_PULLREQUESTNUMBER)
-            repositoryName: 'zombiej/ant-design'
-            gitHubConnection: $(ACCESS_TOKEN)
-            comment: |
-              Deploy preview is ready:
-              https://preview-${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}-ant-design.surge.sh
