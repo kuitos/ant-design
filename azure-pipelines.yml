@@ -16,10 +16,6 @@ stages:
   jobs:
     - job: Build_Site
       steps:
-        - bash: |
-            export DEPLOY_DOMAIN=https://preview-${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}-ant-design.surge.sh
-            echo "It is $DEPLOY_DOMAIN"
-          displayName: Multiline Bash script
         - checkout: self
           displayName: 'Checkout'
           clean: true
@@ -36,4 +32,8 @@ stages:
           displayName: 'List build'
         - script: ls -al _site/
           displayName: 'List build'
-        - script: export DEPLOY_DOMAIN=https://preview-${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}-ant-design.surge.sh
+        - script: |
+            export DEPLOY_DOMAIN=https://preview-${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}-ant-design.surge.sh
+            echo "Deploy to $DEPLOY_DOMAIN"
+            npx surge --project ./_site --domain $DEPLOY_DOMAIN
+          displayName: Deploy
